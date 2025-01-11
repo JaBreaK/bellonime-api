@@ -1,4 +1,4 @@
-# wajik-anime-api
+# bellonime-api
 
 REST API streaming dan download Anime subtitle Indonesia dari berbagai sumber
 
