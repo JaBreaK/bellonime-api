@@ -97,5 +97,4 @@ npm start
 
 ### CONTOH UI
 
-[wajiknime](https://github.com/wajik45/wajiknime/)
-[zannime](https://github.com/Fauzanmhr/zannime/)
+[bellonime](http://bellonime.web.id/)
