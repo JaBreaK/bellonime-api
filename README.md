@@ -19,10 +19,10 @@ MOHON IZIN ABANG SUMBER, sumber bisa bertambah, req/dm rekomendasi situs yang ba
 
 ```sh
 # clone repo
-git clone https://github.com/wajik45/wajik-anime-api.git
+git clone https://github.com/JaBreaK/bellonime-api.git
 
 # masuk repo
-cd wajik-anime-api
+cd bellonime-api
 
 # install dependensi
 npm install
