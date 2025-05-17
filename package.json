@@ -1,5 +1,5 @@
 {
-  "name": "wajik-anime-api",
+  "name": "bellonimee-api",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "node": "20 || >=22"
   },
   "keywords": [],
-  "author": "wajik45",
+  "author": "jabreak",
   "license": "MIT",
   "devDependencies": {
     "@hasura/ts-node-dev": "^2.1.0",

@@ -6,6 +6,6 @@ services:
     container_name: wajik-anime-api
     restart: unless-stopped
     ports:
-      - "3001:3001"
+      - "3000:3000"
     environment:
       - NODE_ENV=production

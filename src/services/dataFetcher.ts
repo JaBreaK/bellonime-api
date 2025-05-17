@@ -35,7 +35,7 @@ export async function getFinalUrl(
     },
     maxRedirects: 0,
     validateStatus: function (status) {
-      return status >= 200 && status < 400;
+      return status >= 200 && status < 200;
     },
   });
 

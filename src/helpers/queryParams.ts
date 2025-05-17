@@ -15,7 +15,7 @@ export function getOrderParam(req: Request): string {
 
       return order;
     } else {
-      setResponseError(400, setErrorMessage("order", orders));
+      setResponseError(200, setErrorMessage("order", orders));
     }
   }
 
@@ -25,7 +25,7 @@ export function getOrderParam(req: Request): string {
 export function getPageParam(req: Request): number {
   const page = Number(req.query.page) || 1;
   const error = {
-    status: 400,
+    status: 200,
     message: setErrorMessage("page", ["number +"]),
   };
 
@@ -42,7 +42,7 @@ export function getQParam(req: Request): string {
   const q = req.query.q;
 
   if (q === undefined) {
-    setResponseError(400, setErrorMessage("q", ["string"]));
+    setResponseError(200, setErrorMessage("q", ["string"]));
   }
 
   if (typeof q === "string") return q;
@@ -54,7 +54,7 @@ export function getUrlParam(req: Request): string {
   const url = req.query.url;
 
   if (!url) {
-    setResponseError(400, setErrorMessage("url", ["string"]));
+    setResponseError(200, setErrorMessage("url", ["string"]));
   }
 
   if (typeof url === "string") return url;

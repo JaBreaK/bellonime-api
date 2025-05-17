@@ -1,4 +1,4 @@
-# bellonime-api
+# wajik-anime-api
 
 REST API streaming dan download Anime subtitle Indonesia dari berbagai sumber
 
@@ -19,10 +19,10 @@ MOHON IZIN ABANG SUMBER, sumber bisa bertambah, req/dm rekomendasi situs yang ba
 
 ```sh
 # clone repo
-git clone https://github.com/JaBreaK/bellonime-api.git
+git clone https://github.com/wajik45/wajik-anime-api.git
 
 # masuk repo
-cd bellonime-api
+cd wajik-anime-api
 
 # install dependensi
 npm install
@@ -97,4 +97,5 @@ npm start
 
 ### CONTOH UI
 
-[bellonime](http://bellonime.web.id/)
+[wajiknime](https://github.com/wajik45/wajiknime/)
+[zannime](https://github.com/Fauzanmhr/zannime/)

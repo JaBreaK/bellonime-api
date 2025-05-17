@@ -632,7 +632,7 @@ export default class SamehadakuParser extends SamehadakuParserExtra {
         }),
       },
       (response) => {
-        if (!response.data) setResponseError(400);
+        if (!response.data) setResponseError(200);
       }
     );
 
