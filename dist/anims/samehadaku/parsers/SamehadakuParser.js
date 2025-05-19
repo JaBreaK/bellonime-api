@@ -313,7 +313,7 @@ class SamehadakuParser extends SamehadakuParserExtra_1.default {
                 const postData = el.attr("data-post");
                 const numeData = el.attr("data-nume");
                 const typeData = el.attr("data-type");
-                const result = await (0, dataFetcher_1.wajikFetch)(`${this.baseUrl}/wp-admin/admin-ajax.php`, this.baseUrl, {
+                const result = await (0, dataFetcher_1.belloFetch)(`${this.baseUrl}/wp-admin/admin-ajax.php`, this.baseUrl, {
                     method: "POST",
                     responseType: "text",
                     data: new URLSearchParams({
@@ -459,7 +459,7 @@ class SamehadakuParser extends SamehadakuParserExtra_1.default {
         const post = serverIdArr[0];
         const nume = serverIdArr[1];
         const type = serverIdArr[2];
-        const url = await (0, dataFetcher_1.wajikFetch)(`${this.baseUrl}/wp-admin/admin-ajax.php`, this.baseUrl, {
+        const url = await (0, dataFetcher_1.belloFetch)(`${this.baseUrl}/wp-admin/admin-ajax.php`, this.baseUrl, {
             method: "POST",
             responseType: "text",
             data: new URLSearchParams({
@@ -483,7 +483,7 @@ class SamehadakuParser extends SamehadakuParserExtra_1.default {
         return data;
     }
     parseWibuFile(url) {
-        return (0, dataFetcher_1.wajikFetch)(url, this.baseUrl);
+        return (0, dataFetcher_1.belloFetch)(url, this.baseUrl);
     }
     parseAnimeBatch(batchId) {
         return this.scrape({

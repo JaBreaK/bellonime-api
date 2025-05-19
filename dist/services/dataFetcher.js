@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.wajikFetch = wajikFetch;
+exports.belloFetch = belloFetch;
 exports.getFinalUrl = getFinalUrl;
 exports.getFinalUrls = getFinalUrls;
 const axios_1 = __importDefault(require("axios"));
 const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36";
-async function wajikFetch(url, ref, axiosConfig, callback) {
+async function belloFetch(url, ref, axiosConfig, callback) {
     const response = await (0, axios_1.default)(url, {
         ...axiosConfig,
         headers: {

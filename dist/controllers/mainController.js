@@ -29,7 +29,7 @@ const mainController = {
                     samehadaku: index_2.samehadakuInfo,
                 };
                 const data = {
-                    message: "WAJIK ANIME API IS READY 🔥🔥🔥",
+                    message: "BELLONIME API IS READY 🔥🔥🔥",
                     sources: Object.values(animeSources),
                 };
                 const newData = {
