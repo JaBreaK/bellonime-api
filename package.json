@@ -1,5 +1,5 @@
 {
-  "name": "bellonimee-api",
+  "name": "bellonime-api",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -32,7 +32,7 @@
     "axios": "^1.7.6",
     "cheerio": "1.0.0-rc.12",
     "cors": "^2.8.5",
-    "express": "^4.21.2",
+    "express": "^4.21.1",
     "lru-cache": "^11.0.1"
   }
 }

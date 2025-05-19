@@ -1,11 +1,11 @@
 services:
-  wajik-anime-api:
+  bellonime-api:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: wajik-anime-api
+    container_name: bellonime-api
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3001:3001"
     environment:
       - NODE_ENV=production

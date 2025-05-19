@@ -28,7 +28,7 @@ const mainController = {
         };
 
         const data = {
-          message: "ANIME API IS READY 🔥🔥🔥",
+          message: "BELLONIME API IS READY 🔥🔥🔥",
           sources: Object.values(animeSources),
         };
 

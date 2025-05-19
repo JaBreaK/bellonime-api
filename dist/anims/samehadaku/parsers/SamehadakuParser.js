@@ -6,14 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dataFetcher_1 = require("../../../services/dataFetcher");
 const error_1 = require("../../../helpers/error");
 const SamehadakuParserExtra_1 = __importDefault(require("./SamehadakuParserExtra"));
-const samehadakuInfo_1 = __importDefault(require("../info/samehadakuInfo"));
 const path_1 = __importDefault(require("path"));
 class SamehadakuParser extends SamehadakuParserExtra_1.default {
     parseHome() {
         return this.scrape({
             path: "/",
             initialData: {
-                recent: { href: "", samehadakuUrl: "", episodeList: [] },
+                recent: { href: "", samehadakuUrl: "", animeList: [] },
                 batch: { href: "", samehadakuUrl: "", batchList: [] },
                 movie: { href: "", samehadakuUrl: "", animeList: [] },
             },
@@ -28,8 +27,8 @@ class SamehadakuParser extends SamehadakuParserExtra_1.default {
             animeWrapperElements.forEach((animeWrapperEl, index) => {
                 const animeElements = $(animeWrapperEl).find("ul li").toArray();
                 animeElements.forEach((animeEl) => {
-                    const card = this.parseAnimeCard1($(animeEl), index === 0 ? "episode" : "batch");
-                    (index === 0 ? data.recent.episodeList : data.batch.batchList).push(card);
+                    const card = this.parseAnimeCard1($(animeEl), index === 0 ? "anime" : "batch");
+                    (index === 0 ? data.recent.animeList : data.batch.batchList).push(card);
                 });
             });
             const animeMovieElements = $(".widgetseries ul li").toArray();
@@ -39,7 +38,7 @@ class SamehadakuParser extends SamehadakuParserExtra_1.default {
                     data.movie.animeList.push(card);
                 }
             });
-            const isEmpty = data.recent.episodeList.length === 0 &&
+            const isEmpty = data.recent.animeList.length === 0 &&
                 data.batch.batchList.length === 0 &&
                 data.movie.animeList.length === 0;
             this.checkEmptyData(isEmpty);
@@ -123,18 +122,18 @@ class SamehadakuParser extends SamehadakuParserExtra_1.default {
             return data;
         });
     }
-    parseRecentEpisodes(page) {
+    parseRecentAnime(page) {
         return this.scrape({
             path: `/anime-terbaru/page/${page}`,
-            initialData: { data: { episodeList: [] } },
+            initialData: { data: { animeList: [] } },
         }, async ($, { data, pagination }) => {
             const animeElements = $(".post-show ul li").toArray();
             animeElements.forEach((animeElement) => {
-                const card = this.parseAnimeCard1($(animeElement), "episode");
-                data.episodeList.push(card);
+                const card = this.parseAnimeCard1($(animeElement), "anime");
+                data.animeList.push(card);
             });
             pagination = this.parsePagination($);
-            const isEmpty = data.episodeList.length === 0;
+            const isEmpty = data.animeList.length === 0;
             this.checkEmptyData(isEmpty);
             return { data, pagination };
         });
@@ -314,7 +313,7 @@ class SamehadakuParser extends SamehadakuParserExtra_1.default {
                 const postData = el.attr("data-post");
                 const numeData = el.attr("data-nume");
                 const typeData = el.attr("data-type");
-                const result = await (0, dataFetcher_1.wajikFetch)(`${this.baseUrl}/wp-admin/admin-ajax.php`, {
+                const result = await (0, dataFetcher_1.wajikFetch)(`${this.baseUrl}/wp-admin/admin-ajax.php`, this.baseUrl, {
                     method: "POST",
                     responseType: "text",
                     data: new URLSearchParams({
@@ -460,7 +459,7 @@ class SamehadakuParser extends SamehadakuParserExtra_1.default {
         const post = serverIdArr[0];
         const nume = serverIdArr[1];
         const type = serverIdArr[2];
-        const url = await (0, dataFetcher_1.wajikFetch)(`${this.baseUrl}/wp-admin/admin-ajax.php`, {
+        const url = await (0, dataFetcher_1.wajikFetch)(`${this.baseUrl}/wp-admin/admin-ajax.php`, this.baseUrl, {
             method: "POST",
             responseType: "text",
             data: new URLSearchParams({
@@ -471,22 +470,20 @@ class SamehadakuParser extends SamehadakuParserExtra_1.default {
             }),
         }, (response) => {
             if (!response.data)
-                (0, error_1.setResponseError)(200);
+                (0, error_1.setResponseError)(400);
         });
         data.url = this.generateSrcFromIframeTag(url);
         if (data.url.includes("api.wibufile.com")) {
-            data.url = originUrl + path_1.default.join("/", this.baseUrlPath, `wibufile?url=${data.url}`).replace(/\\/g, "/");
+            data.url =
+                originUrl +
+                    path_1.default.join("/", this.baseUrlPath, `wibufile?url=${data.url}`).replace(/\\/g, "/");
         }
         const isEmpty = !data.url || data.url === "No iframe found";
         this.checkEmptyData(isEmpty);
         return data;
     }
     parseWibuFile(url) {
-        return (0, dataFetcher_1.wajikFetch)(url, {
-            headers: {
-                Referer: samehadakuInfo_1.default.baseUrl,
-            },
-        });
+        return (0, dataFetcher_1.wajikFetch)(url, this.baseUrl);
     }
     parseAnimeBatch(batchId) {
         return this.scrape({

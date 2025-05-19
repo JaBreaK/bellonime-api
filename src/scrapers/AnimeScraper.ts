@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig } from "axios";
 import { load, type CheerioAPI } from "cheerio";
-import { wajikFetch } from "@services/dataFetcher";
+import { belloFetch } from "@services/dataFetcher";
 import animeConfig from "@configs/animeConfig";
 import path from "path";
 import { setResponseError } from "@helpers/error";
@@ -185,7 +185,7 @@ export default class AnimeScraper {
     parser: ($: CheerioAPI, data: T) => Promise<T>
   ): Promise<T> {
     const path = this.generateUrlPath([props.path]);
-    const htmlData = await wajikFetch(this.baseUrl + path, {
+    const htmlData = await belloFetch(this.baseUrl + path, this.baseUrl, {
       method: "GET",
       responseType: "text",
       ...props.axiosConfig,

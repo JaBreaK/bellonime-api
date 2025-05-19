@@ -1,7 +1,7 @@
 import * as IOP from "./interfaces/IOtakudesuParser";
 import * as IOPE from "./interfaces/IOtakudesuParserExtra";
 import type { Quality, Server, Url } from "@interfaces/IGlobal";
-import { wajikFetch } from "@services/dataFetcher";
+import { belloFetch } from "@services/dataFetcher";
 import { cache } from "@libs/lruCache";
 import OtakudesuParserExtra from "./OtakudesuParserExtra";
 
@@ -423,7 +423,7 @@ export default class OtakudesuParser extends OtakudesuParserExtra {
 
         if (!cache.get(nonceCacheKey)) {
           // MISS
-          const nonce = await wajikFetch(`${this.baseUrl}/wp-admin/admin-ajax.php`, {
+          const nonce = await belloFetch(`${this.baseUrl}/wp-admin/admin-ajax.php`, this.baseUrl, {
             method: "POST",
             responseType: "json",
             data: new URLSearchParams({
@@ -559,7 +559,7 @@ export default class OtakudesuParser extends OtakudesuParserExtra {
     const serverIdArr = this.derawr(serverId).split("-");
 
     const getUrlData = async (nonce: any) => {
-      return await wajikFetch(`${this.baseUrl}/wp-admin/admin-ajax.php`, {
+      return await belloFetch(`${this.baseUrl}/wp-admin/admin-ajax.php`, this.baseUrl, {
         method: "POST",
         responseType: "json",
         data: new URLSearchParams({
@@ -587,7 +587,7 @@ export default class OtakudesuParser extends OtakudesuParserExtra {
     } catch (error: any) {
       if (error.status === 403) {
         // MISS
-        const nonce = await wajikFetch(`${this.baseUrl}/wp-admin/admin-ajax.php`, {
+        const nonce = await belloFetch(`${this.baseUrl}/wp-admin/admin-ajax.php`, this.baseUrl, {
           method: "POST",
           responseType: "json",
           data: new URLSearchParams({

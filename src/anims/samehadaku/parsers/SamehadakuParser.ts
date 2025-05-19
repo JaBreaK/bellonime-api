@@ -1,10 +1,9 @@
 import * as ISP from "./interfaces/ISamehadakuParser";
 import * as ISPE from "./interfaces/ISamehadakuParserExtra";
 import type { Server } from "@interfaces/IGlobal";
-import { wajikFetch } from "@services/dataFetcher";
+import { belloFetch } from "@services/dataFetcher";
 import { setResponseError } from "@helpers/error";
 import SamehadakuParserExtra from "./SamehadakuParserExtra";
-import samehadakuInfo from "@samehadaku/info/samehadakuInfo";
 import path from "path";
 
 export default class SamehadakuParser extends SamehadakuParserExtra {
@@ -13,7 +12,7 @@ export default class SamehadakuParser extends SamehadakuParserExtra {
       {
         path: "/",
         initialData: {
-          recent: { href: "", samehadakuUrl: "", episodeList: [] },
+          recent: { href: "", samehadakuUrl: "", animeList: [] },
           batch: { href: "", samehadakuUrl: "", batchList: [] },
           movie: { href: "", samehadakuUrl: "", animeList: [] },
         },
@@ -40,9 +39,9 @@ export default class SamehadakuParser extends SamehadakuParserExtra {
           const animeElements = $(animeWrapperEl).find("ul li").toArray();
 
           animeElements.forEach((animeEl) => {
-            const card = this.parseAnimeCard1($(animeEl), index === 0 ? "episode" : "batch");
+            const card = this.parseAnimeCard1($(animeEl), index === 0 ? "anime" : "batch");
 
-            (index === 0 ? data.recent.episodeList : data.batch.batchList).push(card);
+            (index === 0 ? data.recent.animeList : data.batch.batchList).push(card);
           });
         });
 
@@ -57,7 +56,7 @@ export default class SamehadakuParser extends SamehadakuParserExtra {
         });
 
         const isEmpty =
-          data.recent.episodeList.length === 0 &&
+          data.recent.animeList.length === 0 &&
           data.batch.batchList.length === 0 &&
           data.movie.animeList.length === 0;
 
@@ -176,24 +175,24 @@ export default class SamehadakuParser extends SamehadakuParserExtra {
     );
   }
 
-  parseRecentEpisodes(page: number): Promise<ISP.RecentEpisodes> {
+  parseRecentAnime(page: number): Promise<ISP.RecentEpisodes> {
     return this.scrape<ISP.RecentEpisodes>(
       {
         path: `/anime-terbaru/page/${page}`,
-        initialData: { data: { episodeList: [] } },
+        initialData: { data: { animeList: [] } },
       },
       async ($, { data, pagination }) => {
         const animeElements = $(".post-show ul li").toArray();
 
         animeElements.forEach((animeElement) => {
-          const card = this.parseAnimeCard1($(animeElement), "episode");
+          const card = this.parseAnimeCard1($(animeElement), "anime");
 
-          data.episodeList.push(card);
+          data.animeList.push(card);
         });
 
         pagination = this.parsePagination($);
 
-        const isEmpty = data.episodeList.length === 0;
+        const isEmpty = data.animeList.length === 0;
 
         this.checkEmptyData(isEmpty);
 
@@ -434,7 +433,7 @@ export default class SamehadakuParser extends SamehadakuParserExtra {
           const numeData = el.attr("data-nume");
           const typeData = el.attr("data-type");
 
-          const result = await wajikFetch(`${this.baseUrl}/wp-admin/admin-ajax.php`, {
+          const result = await belloFetch(`${this.baseUrl}/wp-admin/admin-ajax.php`, this.baseUrl, {
             method: "POST",
             responseType: "text",
             data: new URLSearchParams({
@@ -619,8 +618,9 @@ export default class SamehadakuParser extends SamehadakuParserExtra {
     const nume = serverIdArr[1];
     const type = serverIdArr[2];
 
-    const url = await wajikFetch(
+    const url = await belloFetch(
       `${this.baseUrl}/wp-admin/admin-ajax.php`,
+      this.baseUrl,
       {
         method: "POST",
         responseType: "text",
@@ -632,14 +632,16 @@ export default class SamehadakuParser extends SamehadakuParserExtra {
         }),
       },
       (response) => {
-        if (!response.data) setResponseError(200);
+        if (!response.data) setResponseError(400);
       }
     );
 
     data.url = this.generateSrcFromIframeTag(url);
 
     if (data.url.includes("api.wibufile.com")) {
-      data.url = originUrl + path.join("/", this.baseUrlPath, `wibufile?url=${data.url}`).replace(/\\/g, "/");
+      data.url =
+        originUrl +
+        path.join("/", this.baseUrlPath, `wibufile?url=${data.url}`).replace(/\\/g, "/");
     }
 
     const isEmpty = !data.url || data.url === "No iframe found";
@@ -650,11 +652,7 @@ export default class SamehadakuParser extends SamehadakuParserExtra {
   }
 
   parseWibuFile(url: string): Promise<any> {
-    return wajikFetch(url, {
-      headers: {
-        Referer: samehadakuInfo.baseUrl,
-      },
-    });
+    return belloFetch(url, this.baseUrl);
   }
 
   parseAnimeBatch(batchId: string): Promise<ISP.AnimeBatch> {
