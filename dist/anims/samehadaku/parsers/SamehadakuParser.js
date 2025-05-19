@@ -471,7 +471,7 @@ class SamehadakuParser extends SamehadakuParserExtra_1.default {
             }),
         }, (response) => {
             if (!response.data)
-                (0, error_1.setResponseError)(400);
+                (0, error_1.setResponseError)(200);
         });
         data.url = this.generateSrcFromIframeTag(url);
         if (data.url.includes("api.wibufile.com")) {

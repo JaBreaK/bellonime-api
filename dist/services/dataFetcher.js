@@ -30,7 +30,7 @@ async function getFinalUrl(url, axiosConfig) {
         },
         maxRedirects: 0,
         validateStatus: function (status) {
-            return status >= 200 && status < 400;
+            return status >= 200 && status < 200;
         },
     });
     const location = response.headers["location"];

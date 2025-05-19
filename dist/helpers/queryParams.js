@@ -18,7 +18,7 @@ function getOrderParam(req) {
             return order;
         }
         else {
-            (0, error_1.setResponseError)(400, setErrorMessage("order", orders));
+            (0, error_1.setResponseError)(200, setErrorMessage("order", orders));
         }
     }
     return "title";
@@ -26,7 +26,7 @@ function getOrderParam(req) {
 function getPageParam(req) {
     const page = Number(req.query.page) || 1;
     const error = {
-        status: 400,
+        status: 200,
         message: setErrorMessage("page", ["number +"]),
     };
     if (page < 1)
@@ -39,7 +39,7 @@ function getPageParam(req) {
 function getQParam(req) {
     const q = req.query.q;
     if (q === undefined) {
-        (0, error_1.setResponseError)(400, setErrorMessage("q", ["string"]));
+        (0, error_1.setResponseError)(200, setErrorMessage("q", ["string"]));
     }
     if (typeof q === "string")
         return q;
@@ -48,7 +48,7 @@ function getQParam(req) {
 function getUrlParam(req) {
     const url = req.query.url;
     if (!url) {
-        (0, error_1.setResponseError)(400, setErrorMessage("url", ["string"]));
+        (0, error_1.setResponseError)(200, setErrorMessage("url", ["string"]));
     }
     if (typeof url === "string")
         return url;
